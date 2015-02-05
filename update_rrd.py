@@ -19,12 +19,17 @@ ACCESS_TOKEN = ""
 
 
 def read_metric(metric):
-	response = urllib2.urlopen('https://api.spark.io/v1/devices/' + YOURDEVICEID + '/' + metric + '?access_token=' + ACCESS_TOKEN)
-	html = response.read()
-	reading = json.loads(html)
-	result = reading['result']
-	return result
-	
+	reading = None
+
+	try:
+		http_response = urllib2.urlopen('https://api.spark.io/v1/devices/' + YOURDEVICEID + '/' + metric + '?access_token=' + ACCESS_TOKEN)
+		json_output = http_response.read()
+		reading = json.loads(json_output)
+	except urllib2.URLError, e:
+		reading = None
+		print "Unable to retrieve reading: ", e
+
+	return reading
 
 
 def update_rrd(self, metric):
