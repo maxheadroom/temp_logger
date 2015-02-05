@@ -32,14 +32,11 @@ def read_metric(metric):
 	return reading
 
 
-def update_rrd(self, metric):
-	while 1:
-	 total_input_traffic += random.randrange(1000, 1500)
-	 total_output_traffic += random.randrange(1000, 3000)
-	 ret = rrdtool.update('speed.rrd','N:' + `total_input_traffic` + ':' + `total_output_traffic`);
+def update_rrd(temperature, pressure):
+	 ret = rrdtool.update('climate.rrd','N:' + temperature + ':' + pressure);
 	 if ret:
 	    print rrdtool.error()
-	 time.sleep(300)
+	 # time.sleep(300)
 
 
 
@@ -59,3 +56,4 @@ if __name__ == '__main__':
 	pressure = read_metric("pressure")
 	print "Temperature: " + str(round(temp,2)) + " C"
 	print "Pressure: " + str(round(pressure,2)) + " hPa"
+	update_rrd(temp, pressure)
