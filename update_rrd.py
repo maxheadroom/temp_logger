@@ -25,7 +25,7 @@ def read_metric(metric):
 		http_response = urllib2.urlopen('https://api.spark.io/v1/devices/' + YOURDEVICEID + '/' + metric + '?access_token=' + ACCESS_TOKEN)
 		html_output = http_response.read()
 		json_raw = json.loads(html_output)
-        reading = json_raw['result']
+		reading = json_raw['result']
 	except urllib2.URLError, e:
 		reading = None
 		print "Unable to retrieve reading: ", e
