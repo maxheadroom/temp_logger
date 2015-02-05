@@ -1,9 +1,9 @@
 import sys
 import rrdtool
  
-ret = rrdtool.create("climate.rrd", "--step", "300", "--start", '0',
- "DS:temperature:GAUGE:600:U:U",
- "DS:pressure:GAUGE:600:U:U",
+ret = rrdtool.create("climate.rrd", "--step", "60", "--start", '0',
+ "DS:temperature:GAUGE:120:U:U",
+ "DS:pressure:GAUGE:120:U:U",
  "RRA:AVERAGE:0.5:1:600",
  "RRA:AVERAGE:0.5:6:700",
  "RRA:AVERAGE:0.5:24:775",

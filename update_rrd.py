@@ -33,7 +33,7 @@ def read_metric(metric):
 
 
 def update_rrd(temperature, pressure):
-	 ret = rrdtool.update('climate.rrd','N:' + temperature + ':' + pressure);
+	 ret = rrdtool.update('climate.rrd','N:' + str(temperature) + ':' + str(pressure));
 	 if ret:
 	    print rrdtool.error()
 	 # time.sleep(300)
