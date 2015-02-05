@@ -40,14 +40,17 @@ def update_rrd(self, metric):
 
 # main class if this file is used directly
 if __name__ == '__main__':
-    config = ConfigParser.ConfigParser()
-    config.readfp(open('spark.cfg'))
-    print "Config DeviceID: " + config.get('SparkCloud', 'deviceID')
-    print "Config Access Token: " + config.get('SparkCloud', 'accessToken')
+	
+	# read config information from file
+	config = ConfigParser.ConfigParser()
+	config.readfp(open('spark.cfg'))
+	YOURDEVICEID = config.get('SparkCloud', 'deviceID')
+	ACCESS_TOKEN = config.get('SparkCloud', 'accessToken')
+	# print out config information
+	print "Config DeviceID: " + YOURDEVICEID
+	print "Config Access Token: " + ACCESS_TOKEN
 
-    YOURDEVICEID = config.get('SparkCloud', 'deviceID')
-    ACCESS_TOKEN = config.get('SparkCloud', 'accessToken')
-    temp = read_metric("temp")
-    pressure = read_metric("pressure")
-    print "Temperature: " + str(round(temp,2)) + " C"
-    print "Pressure: " + str(round(pressure,2)) + " hPa"
+	temp = read_metric("temp")
+	pressure = read_metric("pressure")
+	print "Temperature: " + str(round(temp,2)) + " C"
+	print "Pressure: " + str(round(pressure,2)) + " hPa"
