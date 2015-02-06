@@ -10,7 +10,7 @@ cd $TOOL_HOME
 /usr/bin/rrdtool graph temp_graph.png \
         -w 785 -h 120 -a PNG \
         --slope-mode \
-        --start -1days --end now \
+        --start -4hours --end now \
 		--watermark "`date`" \
         --font DEFAULT:7: \
         --vertical-label "temperature (°C)" \
