@@ -2,3 +2,4 @@ spark.cfg
 update_rrd.pyc
 climate.rrd
 ./*.png
+web/*.png
