@@ -1,0 +1,56 @@
+<html>
+<head>
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1,0, maximum-scale=1.0, user-scalable=0;"/ >
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/pure-min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/nivo-slider.css" media="screen">
+    <link rel="stylesheet" href="css/bubbl-theme.css" media="screen" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Dosis' rel='stylesheet' type='text/css'>
+    <title>The Unwritten Words - Temperature Log</title>
+</head>
+<body>
+<div class="pure-menu pure-menu-open pure-menu-horizontal" id="float">
+</div>
+<div id="wrapper">
+    <div class="slider-wrapper bubbl-theme">
+        <div id="slider" class="nivoSlider">
+            <a href="hour.png"><img src="hour.png" alt=""></img></a>
+            <a href="day.png"><img src="day.png" alt=""></img></a>
+            <a href="week.png"><img src="week.png" alt=""></img></a>
+            <a href="month.png"><img src="month.png" alt=""></img></a>
+            <a href="year.png"><img src="year.png" alt=""></img></a>
+            <a href="avg.png"><img src="avg.png" alt=""></img></a>
+        </div>
+    </div>
+<div id="footer">
+</div>
+</div>
+<script src="js/jquery.min.js"></script>
+<script src="js/jquery.nivo.slider.pack.js"></script>
+<script>
+    $(window).load(function() {
+        $('#slider').nivoSlider({
+            pauseTime: 10000,
+            pauseOnHover: true,
+            captionOpacity: 1,
+            startSlide: 1,
+            directionNav: false
+        });
+    });
+</script>
+<script type="text/javascript">
+        if (screen.width <= 720) {
+        window.location = "mobile/mindex.php";
+    }
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-40478354-1', 'bartbania.com');
+  ga('send', 'pageview');
+</script>
+</body>
+</html>

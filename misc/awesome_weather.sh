@@ -6,7 +6,7 @@
 #
 ############################
 RRDPATH="/home/fzurell/temp_logger"
-IMGPATH="/tmp/temp_logger/"
+IMGPATH="$RRDPATH/web"
 RRDFILE="climate.rrd"
 LAT="52.5243700N"
 LON="13.4105300E"
@@ -42,16 +42,16 @@ DAWN=$(($DAWNHR * 3600 + $DAWNMIN * 60))
 # Creating graphs
 #
 ############################
-#hour
-rrdtool graph $IMGPATH/hour.png --start -6h --end now \
+# temperature hour
+rrdtool graph $IMGPATH/temperature_hour.png --start -6h --end now \
 -v "Last 6 hours (°C)" \
 --full-size-mode \
---width=785 --height=500 \
+--width=785 --height=400 \
 --slope-mode \
 --color=SHADEB#9999CC \
---watermark="© Bart Bania - 2014" \
+--watermark="© Falko Zurell - 2014" \
 DEF:temp1=$RRDPATH/$RRDFILE:temperature:AVERAGE \
-DEF:temp2=$RRDPATH/$RRDFILE:temperature:MAX \
+DEF:temp2=$RRDPATH/$RRDFILE:dht22temperature:AVERAGE \
 CDEF:nightplus=LTIME,86400,%,$SUNR,LT,INF,LTIME,86400,%,$SUNS,GT,INF,UNKN,temp1,*,IF,IF \
 CDEF:nightminus=LTIME,86400,%,$SUNR,LT,NEGINF,LTIME,86400,%,$SUNS,GT,NEGINF,UNKN,temp1,*,IF,IF \
 AREA:nightplus#E0E0E0 \
@@ -66,8 +66,8 @@ COMMENT:"\u" \
 COMMENT:"Dawn\:    $DAWNHR\:$DAWNMIN\r" \
 COMMENT:"\u" \
 COMMENT:"Sunrise\: $SUNRISEHR\:$SUNRISEMIN\r" \
-LINE1:temp1$RAWCOLOUR:"Average  " \
-LINE1:temp2$RAWCOLOUR2:"Max   " \
+LINE1:temp1$RAWCOLOUR:"Temperature  " \
+LINE1:temp2$RAWCOLOUR2:"DHT22 Temp.   " \
 GPRINT:temp1:LAST:"%5.1lf °C" \
 GPRINT:temp1:AVERAGE:"%5.1lf °C\l" \
 COMMENT:"\u" \
@@ -76,23 +76,21 @@ COMMENT:"\u" \
 COMMENT:"Dusk\:    $DUSKHR\:$DUSKMIN\r" \
 HRULE:0#66CCFF:"freezing\l"
 
-#day
-rrdtool graph $IMGPATH/day.png --start -1d --end now \
--v "Last day (°C)" \
+# Pressure for the hour
+rrdtool graph $IMGPATH/pressure_hour.png --start -6h --end now \
+-v "Last 6 hours (°C)" \
 --full-size-mode \
---width=785 --height=500 \
+--width=785 --height=400 \
 --slope-mode \
---color=SHADEA#9999CC \
---watermark="© Bart Bania - 2014" \
-DEF:temp1=$RRDPATH/$RRDFILE:temperature:AVERAGE \
-DEF:temp2=$RRDPATH/$RRDFILE:temperature:MAX \
-CDEF:trend1=temp1,21600,TREND \
-CDEF:nightplus=LTIME,86400,%,$SUNR,LT,INF,LTIME,86400,%,$SUNS,GT,INF,UNKN,temp1,*,IF,IF \
-CDEF:nightminus=LTIME,86400,%,$SUNR,LT,NEGINF,LTIME,86400,%,$SUNS,GT,NEGINF,UNKN,temp1,*,IF,IF \
+--color=SHADEB#9999CC \
+--watermark="© Falko Zurell - 2014" \
+DEF:pressure=$RRDPATH/$RRDFILE:pressure:AVERAGE \
+CDEF:nightplus=LTIME,86400,%,$SUNR,LT,INF,LTIME,86400,%,$SUNS,GT,INF,UNKN,pressure,*,IF,IF \
+CDEF:nightminus=LTIME,86400,%,$SUNR,LT,NEGINF,LTIME,86400,%,$SUNS,GT,NEGINF,UNKN,pressure,*,IF,IF \
 AREA:nightplus#E0E0E0 \
 AREA:nightminus#E0E0E0 \
-CDEF:dusktilldawn=LTIME,86400,%,$DAWN,LT,INF,LTIME,86400,%,$DUSK,GT,INF,UNKN,temp1,*,IF,IF \
-CDEF:dawntilldusk=LTIME,86400,%,$DAWN,LT,NEGINF,LTIME,86400,%,$DUSK,GT,NEGINF,UNKN,temp1,*,IF,IF \
+CDEF:dusktilldawn=LTIME,86400,%,$DAWN,LT,INF,LTIME,86400,%,$DUSK,GT,INF,UNKN,pressure,*,IF,IF \
+CDEF:dawntilldusk=LTIME,86400,%,$DAWN,LT,NEGINF,LTIME,86400,%,$DUSK,GT,NEGINF,UNKN,pressure,*,IF,IF \
 AREA:dusktilldawn#CCCCCC \
 AREA:dawntilldusk#CCCCCC \
 COMMENT:"  Location         Last        Avg\l" \
@@ -101,103 +99,41 @@ COMMENT:"\u" \
 COMMENT:"Dawn\:    $DAWNHR\:$DAWNMIN\r" \
 COMMENT:"\u" \
 COMMENT:"Sunrise\: $SUNRISEHR\:$SUNRISEMIN\r" \
-LINE1:temp1$RAWCOLOUR:"Average   " \
-LINE1:temp2$RAWCOLOUR2:"Max   " \
-GPRINT:temp1:LAST:"%5.1lf °C" \
-GPRINT:temp1:AVERAGE:"%5.1lf °C\l" \
+LINE1:pressure$RAWCOLOUR:"Pressure  " \
+GPRINT:pressure:LAST:"%5.1lf hPa" \
+GPRINT:pressure:AVERAGE:"%5.1lf hPa\l" \
 COMMENT:"\u" \
 COMMENT:"Sunset\:  $SUNSETHR\:$SUNSETMIN\r" \
 COMMENT:"\u" \
-COMMENT:"Dusk\:    $DUSKHR\:$DUSKMIN\r" \
-HRULE:0#66CCFF:"freezing\l"
+COMMENT:"Dusk\:    $DUSKHR\:$DUSKMIN\r" 
 
-#week
-rrdtool graph $IMGPATH/week.png --start -1w \
+# Humidity for the hour
+rrdtool graph $IMGPATH/humidity_hour.png --start -6h --end now \
+-v "Last 6 hours (°C)" \
 --full-size-mode \
--v "Last week (°C)" \
---width=785 --height=500 \
+--width=785 --height=400 \
 --slope-mode \
 --color=SHADEB#9999CC \
---watermark="© Bart Bania - 2014" \
-DEF:temp1=$RRDPATH/$RRDFILE:temperature:AVERAGE \
-DEF:temp2=$RRDPATH/$RRDFILE:temperature:MAX \
-CDEF:nightplus=LTIME,86400,%,$SUNR,LT,INF,LTIME,86400,%,$SUNS,GT,INF,UNKN,temp1,*,IF,IF \
-CDEF:nightminus=LTIME,86400,%,$SUNR,LT,NEGINF,LTIME,86400,%,$SUNS,GT,NEGINF,UNKN,temp1,*,IF,IF \
+--watermark="© Falko Zurell - 2014" \
+DEF:humidity=$RRDPATH/$RRDFILE:humidity:AVERAGE \
+CDEF:nightplus=LTIME,86400,%,$SUNR,LT,INF,LTIME,86400,%,$SUNS,GT,INF,UNKN,humidity,*,IF,IF \
+CDEF:nightminus=LTIME,86400,%,$SUNR,LT,NEGINF,LTIME,86400,%,$SUNS,GT,NEGINF,UNKN,humidity,*,IF,IF \
 AREA:nightplus#E0E0E0 \
 AREA:nightminus#E0E0E0 \
-CDEF:dusktilldawn=LTIME,86400,%,$DAWN,LT,INF,LTIME,86400,%,$DUSK,GT,INF,UNKN,temp1,*,IF,IF \
-CDEF:dawntilldusk=LTIME,86400,%,$DAWN,LT,NEGINF,LTIME,86400,%,$DUSK,GT,NEGINF,UNKN,temp1,*,IF,IF \
+CDEF:dusktilldawn=LTIME,86400,%,$DAWN,LT,INF,LTIME,86400,%,$DUSK,GT,INF,UNKN,humidity,*,IF,IF \
+CDEF:dawntilldusk=LTIME,86400,%,$DAWN,LT,NEGINF,LTIME,86400,%,$DUSK,GT,NEGINF,UNKN,humidity,*,IF,IF \
 AREA:dusktilldawn#CCCCCC \
 AREA:dawntilldusk#CCCCCC \
 COMMENT:"  Location         Last        Avg\l" \
-COMMENT:"\u" \
-COMMENT:"Location         Last        Avg  \r" \
 COMMENT:"\t\t\t\t\t\t---------------------------\l" \
 COMMENT:"\u" \
-LINE1:temp1$RAWCOLOUR:"Average   " \
-LINE1:temp2$RAWCOLOUR2:"Max   " \
-GPRINT:temp1:LAST:"%5.1lf °C" \
-GPRINT:temp1:AVERAGE:"%5.1lf °C\l" \
-GPRINT:temp1:MIN:"%5.1lf °C\l" \
-GPRINT:temp1:MAX:"%5.1lf °C\l" \
+COMMENT:"Dawn\:    $DAWNHR\:$DAWNMIN\r" \
 COMMENT:"\u" \
-HRULE:0#66CCFF:"freezing\l"
-
-#month
-rrdtool graph $IMGPATH/month.png --start -1m \
--v "Last month (°C)" \
---full-size-mode \
---width=700 --height=400 \
---slope-mode \
---color=SHADEA#9999CC \
---watermark="© Bart Bania - 2014" \
-DEF:temp1=$RRDPATH/$RRDFILE:temperature:AVERAGE \
-COMMENT:"  Location         Last        Avg\l" \
+COMMENT:"Sunrise\: $SUNRISEHR\:$SUNRISEMIN\r" \
+LINE1:humidity$RAWCOLOUR:"Pressure  " \
+GPRINT:humidity:LAST:"%5.1lf %" \
+GPRINT:humidity:AVERAGE:"%5.1lf %\l" \
 COMMENT:"\u" \
-COMMENT:"Location         Last        Avg  \r" \
-COMMENT:"\t\t\t\t\t\t---------------------------\l" \
+COMMENT:"Sunset\:  $SUNSETHR\:$SUNSETMIN\r" \
 COMMENT:"\u" \
-LINE1:temp1$RAWCOLOUR:"Water Pipe   " \
-GPRINT:temp1:LAST:"%5.1lf °C" \
-GPRINT:temp1:AVERAGE:"%5.1lf °C\l" \
-COMMENT:"\u" \
-HRULE:0#66CCFF:"freezing\l"
-
-#year
-rrdtool graph $IMGPATH/year.png --start -1y \
---full-size-mode \
--v "Last year (°C)" \
---width=700 --height=400 \
---color=SHADEB#9999CC \
---slope-mode \
---watermark="© Bart Bania - 2014" \
-DEF:temp1=$RRDPATH/$RRDFILE:temperature:AVERAGE \
-COMMENT:"  Location         Last        Avg\l" \
-COMMENT:"\u" \
-COMMENT:"Location         Last        Avg  \r" \
-COMMENT:"\t\t\t\t\t\t---------------------------\l" \
-COMMENT:"\u" \
-LINE1:temp1$RAWCOLOUR:"Water Pipe   " \
-GPRINT:temp1:LAST:"%5.1lf °C" \
-GPRINT:temp1:AVERAGE:"%5.1lf °C\l" \
-COMMENT:"\u" \
-HRULE:0#66CCFF:"freezing\l"
-
-#averages
-rrdtool graph $IMGPATH/avg.png --start -1w \
--v "Weekly averages (°C)" \
---full-size-mode \
---width=700 --height=400 \
---slope-mode \
---color=SHADEB#9999CC \
---watermark="© Bart Bania - 2014" \
-DEF:temp1=$RRDPATH/$RRDFILE:temperature:AVERAGE \
-CDEF:trend1=temp1,86400,TREND \
-CDEF:nightplus=LTIME,86400,%,$SUNR,LT,INF,LTIME,86400,%,$SUNS,GT,INF,UNKN,temp1,*,IF,IF \
-CDEF:nightminus=LTIME,86400,%,$SUNR,LT,NEGINF,LTIME,86400,%,$SUNS,GT,NEGINF,UNKN,temp1,*,IF,IF \
-AREA:nightplus#CCCCCC \
-AREA:nightminus#CCCCCC \
-COMMENT:"\t\t\t\t\t\t---------------------------\l" \
-LINE2:trend1$RAWCOLOUR4:"Main Room 6h average\l" \
-COMMENT:"\u" \
-COMMENT:"\u" \
+COMMENT:"Dusk\:    $DUSKHR\:$DUSKMIN\r" 

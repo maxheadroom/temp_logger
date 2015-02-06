@@ -15,3 +15,18 @@ I use a standard breadboard to connect all the components
  * [MPL115A2 from Adafruit](https://www.adafruit.com/products/992)
  * [DHT22 from Adarfuit](https://www.adafruit.com/products/385)
  * [Spark.io Core from Tinkersoup Berlin](https://www.tinkersoup.de/a-1545/)
+ * Standard Breadboard
+ * Resistor 10k Ohm
+ * a few jumper cables
+
+## Folders
+### images
+Contains the images the are used to generate this website. Things like the Fritzing Schemas etc.
+### firmware_binary
+A compiled version of the Spark Code code from the spark-code folder. This includes the external libraries.
+### spark-core
+The source code of Spark Core file. This references some external libraries which are available via the Spark Cloud workbench.
+### misc
+Some miscellaneous files like shell scripts to generate graphs.
+### web
+contains the web files for the RRD graphs of the temperature readings
