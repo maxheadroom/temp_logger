@@ -16,14 +16,14 @@ cd $TOOL_HOME
         --vertical-label "temperature (°C)" \
         DEF:temp=climate.rrd:temperature:AVERAGE \
         DEF:tmax=climate.rrd:temperature:MAX \
-        DEF:tmin=climate.rrd:temperature:MAX \
+        DEF:tmin=climate.rrd:temperature:MIN \
         LINE1:temp#ff9900:"temp avg\l" \
         LINE1:tmax#FF0000:"temp max\l" \
-        LINE1:tmin#0000FF:"temp max\l" \
+        LINE1:tmin#0000FF:"temp min\l" \
         GPRINT:temp:LAST:"                 Cur\:%5.1lf°C" \
         GPRINT:temp:AVERAGE:"Avg\:%5.1lf°C" \
-        GPRINT:temp:MIN:"Min\:%5.1lf°C" \
-        GPRINT:temp:MAX:"Max\:%5.1lf°C\n"
+        GPRINT:tmin:MIN:"Min\:%5.1lf°C" \
+        GPRINT:tmax:MAX:"Max\:%5.1lf°C\n"
 
 
 
