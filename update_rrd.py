@@ -34,8 +34,8 @@ def update_rrd(temperature, pressure):
 	    print rrdtool.error()
 
 
-def update_rrd_dht22(dht22temp, humidity):
-		 ret = rrdtool.update('climate.rrd','--template','dht22temp:humidity', 'N:' + str(dht22temp) + ':' + str(humidity));
+def update_rrd_dht22(dht22temp, humidity, dewpoint):
+		 ret = rrdtool.update('climate.rrd','--template','dht22temperature:humidity:dewpoint', 'N:' + str(dht22temp) + ':' + str(humidity) + ':' + str(dewpoint));
 		 if ret:
 		    print rrdtool.error()
 
@@ -53,12 +53,15 @@ if __name__ == '__main__':
 	print "Config DeviceID: " + YOURDEVICEID
 	print "Config Access Token: " + ACCESS_TOKEN
 
-	temp = read_metric("temperature")
-	# dht22 = read_metric("dht22temperature")
-	# humidity = read_metric("humidity")
+	temperature = read_metric("temperature")
 	pressure = read_metric("pressure")
-	print "Temperature: " + str(round(temp,2)) + " C"
-	# print "Temperature DHT22: " + str(round(dht22,2)) + " C"
+	dht22temp = read_metric("dht22temp")
+	humidity = read_metric("humidity")
+	dewpoint = read_metric("dewpoint")
+	print "Temperature: " + str(round(temperature,2)) + " C"
+	print "Temperature DHT22: " + str(round(dht22temp,2)) + " C"
 	print "Pressure: " + str(round(pressure,2)) + " hPa"
-	# print "Humidity: " + str(round(humidity,2)) + " %"
-	update_rrd(temp, pressure)
+	print "Humidity: " + str(round(humidity,2)) + " %"
+	print "Dew point: " + str(round(dewpoint,2)) + " C"
+	update_rrd(temperature, pressure)
+	update_rrd_dht22(dht22temp, humidity, dewpoint)
