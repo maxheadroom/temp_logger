@@ -27,10 +27,10 @@ cd $TOOL_HOME
 		DEF:dht=$RRDFILE:dht22temperature:AVERAGE \
 		DEF:dewpoint=$RRDFILE:dewpoint:AVERAGE \
 		DEF:humidity=$RRDFILE:humidity:AVERAGE \
-        LINE1:temp$COLOR1:"temp \l" \
-        LINE1:dht$COLOR2:"temp dht22\l" \
-        LINE1:dewpoint$COLOR3:"Dew Point\l" \
-		LINE1:humidity$COLOR4:"Humidity in %\l" \
+        LINE1:temp$COLOUR1:"temp \l" \
+        LINE1:dht$COLOUR2:"temp dht22\l" \
+        LINE1:dewpoint$COLOUR3:"Dew Point\l" \
+		LINE1:humidity$COLOUR4:"Humidity in %\l" \
         GPRINT:temp:LAST:"                 Cur\:%5.1lf°C" \
         GPRINT:temp:AVERAGE:"Avg\:%5.1lf°C" \
         GPRINT:tmin:MIN:"Min\:%5.1lf°C" \
@@ -47,7 +47,7 @@ cd $TOOL_HOME
             --font DEFAULT:7: \
             --vertical-label "Pressure (hPa)" \
             DEF:pressure=$RRDFILE:pressure:MAX \
-            LINE1:pressure$COLOR5:"pressure " \
+            LINE1:pressure$COLOUR5:"pressure " \
             GPRINT:pressure:LAST:"                 Cur\:%5.1lfhPa" \
             GPRINT:pressure:AVERAGE:"Avg\:%5.1lfhPa" \
             GPRINT:pressure:MIN:"Min\:%5.1lfhPa" \
