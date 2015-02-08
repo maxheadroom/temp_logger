@@ -40,6 +40,10 @@ def update_rrd_dht22(dht22temp, humidity, dewpoint):
 		    print rrdtool.error()
 
 
+def update_rrd_all(temperature, pressure, dht22temp, humidity, dewpoint):
+		 ret = rrdtool.update('climate.rrd','--template','temperature:pressure:dht22temperature:humidity:dewpoint', 'N:' + str(temperature) + ':' + str(pressure) + ':' + str(dht22temp) + ':' + str(humidity) + ':' + str(dewpoint));
+		 if ret:
+				print rrdtool.error()
 
 # main class if this file is used directly
 if __name__ == '__main__':
@@ -63,5 +67,4 @@ if __name__ == '__main__':
 	print "Pressure: " + str(round(pressure,2)) + " hPa"
 	print "Humidity: " + str(round(humidity,2)) + " %"
 	print "Dew point: " + str(round(dewpoint,2)) + " C"
-	update_rrd(temperature, pressure)
-	update_rrd_dht22(dht22temp, humidity, dewpoint)
+	update_rrd_all(temperature, pressure, dht22temp, humidity, dewpoint)
