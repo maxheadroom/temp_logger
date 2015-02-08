@@ -3,7 +3,9 @@ import rrdtool
  
 ret = rrdtool.create("climate.rrd", "--step", "60", "--start", '0',
  "DS:temperature:GAUGE:120:U:U",
+ "DS:dht22temperature:GAUGE:120:U:U",
  "DS:pressure:GAUGE:120:U:U",
+ "DS:humidity:GAUGE:120:U:U",
  "RRA:AVERAGE:0.5:1:600",
  "RRA:AVERAGE:0.5:6:700",
  "RRA:AVERAGE:0.5:24:775",

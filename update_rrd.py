@@ -8,10 +8,6 @@ import json
 import ConfigParser, os
 
 
-
-
-
- 
 temperature = 0
 pressure = 0
 YOURDEVICEID = ""
@@ -33,10 +29,15 @@ def read_metric(metric):
 
 
 def update_rrd(temperature, pressure):
-	 ret = rrdtool.update('climate.rrd','N:' + str(temperature) + ':' + str(pressure));
+	 ret = rrdtool.update('climate.rrd','--template','temperature:pressure','N:' + str(temperature) + ':' + str(pressure));
 	 if ret:
 	    print rrdtool.error()
-	 # time.sleep(300)
+
+
+def update_rrd_dht22(dht22temp, humidity):
+		 ret = rrdtool.update('climate.rrd','--template','dht22temp:humidity', 'N:' + str(dht22temp) + ':' + str(humidity));
+		 if ret:
+		    print rrdtool.error()
 
 
 
@@ -52,8 +53,12 @@ if __name__ == '__main__':
 	print "Config DeviceID: " + YOURDEVICEID
 	print "Config Access Token: " + ACCESS_TOKEN
 
-	temp = read_metric("temp")
+	temp = read_metric("temperature")
+	# dht22 = read_metric("dht22temperature")
+	# humidity = read_metric("humidity")
 	pressure = read_metric("pressure")
 	print "Temperature: " + str(round(temp,2)) + " C"
+	# print "Temperature DHT22: " + str(round(dht22,2)) + " C"
 	print "Pressure: " + str(round(pressure,2)) + " hPa"
+	# print "Humidity: " + str(round(humidity,2)) + " %"
 	update_rrd(temp, pressure)
