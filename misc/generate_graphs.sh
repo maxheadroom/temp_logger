@@ -24,6 +24,8 @@ cd $TOOL_HOME
         --font DEFAULT:7: \
         --vertical-label "temperature (°C)" \
         DEF:temp=$RRDFILE:temperature:AVERAGE \
+		DEF:tmin=$RRDFILE:temperature:MIN \
+		DEF:tmax=$RRDFILE:temperature:MAX \
 		DEF:dht=$RRDFILE:dht22temperature:AVERAGE \
 		DEF:dewpoint=$RRDFILE:dewpoint:AVERAGE \
 		DEF:humidity=$RRDFILE:humidity:AVERAGE \
