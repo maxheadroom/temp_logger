@@ -10,8 +10,8 @@ COLOUR4="#CC1414"
 COLOUR5="#000000"
 TRENDCOLOUR="#FFFF00"
 
-TOOL_HOME="."
-WEB_HOME="."
+TOOL_HOME="/home/fzurell/temp_logger"
+WEB_HOME=TOOL_HOME + "/web"
 RRDFILE=TOOL_HOME + "/climate.rrd"
 
 
