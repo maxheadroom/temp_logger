@@ -51,7 +51,7 @@ def generate_temperature(rrdfile):
 		"LINE1:temp" + COLOUR1 + ":temp \l",
 		"LINE1:dht" + COLOUR2 +":temp dht22\l",
 		"LINE1:dewpoint" + COLOUR3 +":Dew Point\l",
-		"LINE1:humidity"+ COLOUR4 + ":Humidity in %\r",
+		"LINE1:humidity"+ COLOUR4 + ":Humidity in %\l",
 		"GPRINT:temp:LAST:                 Cur\:%5.1lf C",
 		"GPRINT:temp:AVERAGE:Avg\:%5.1lf C",
 		"GPRINT:tmin:MIN:Min\:%5.1lf C",
