@@ -31,6 +31,7 @@ def generate_temperature(rrdfile):
 
 		rrdtool.graph(WEB_HOME+"/temperature_%s.png" %(sched),
 		"-w" , "800",
+		"-h", "400",
 		"--imgformat", "PNG",
 		"--slope-mode",
 		"--start" , "-1%s" %(period),
@@ -65,6 +66,7 @@ def generate_pressure(rrdfile):
 
 		rrdtool.graph(WEB_HOME+"/pressure_%s.png" %(sched),
 		"-w" , "800",
+		"-h" , "400",
 		"--imgformat", "PNG",
 		"--slope-mode",
 		"--start" , "-1%s" %(period),
