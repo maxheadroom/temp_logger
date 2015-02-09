@@ -37,6 +37,7 @@ def generate_temperature(rrdfile):
 		"--start" , "-1%s" %(period),
 		"--end", "now",
 		"--font", "DEFAULT:7:",
+		"--right-axis", "0:0",
 		"--right-axis-label", "rel. Humidity in %",
 		"--vertical-label", "temperature ( C)",
 		"DEF:temp=" + rrdfile +":temperature:AVERAGE",
