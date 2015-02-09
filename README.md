@@ -10,13 +10,14 @@ The [Spark Core](http://spark.io/) itself is a tiny Arduino compatible computer 
 I use a standard breadboard to connect all the components
 ![Spark.Core.MPL115A2 Bb](images/Spark.Core.MPL115A2_bb.png)
 ![Spark.Core.MPL115A2 Schem](images/Spark.Core.MPL115A2_schem.png)
+![Spark.Core.Setup](images/Spark.Core.Setup.jpg)
+
 ## Material
 
  * [MPL115A2 from Adafruit](https://www.adafruit.com/products/992)
  * [DHT22 from Adarfuit](https://www.adafruit.com/products/385)
  * [Spark.io Core from Tinkersoup Berlin](https://www.tinkersoup.de/a-1545/)
  * Standard Breadboard
- * Resistor 10k Ohm
  * a few jumper cables
 
 ## Folders
