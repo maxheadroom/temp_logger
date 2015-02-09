@@ -22,11 +22,19 @@ I use a standard breadboard to connect all the components
 
 ## Folders
 ### images
-Contains the images the are used to generate this website. Things like the Fritzing Schemas etc.
+Contains the images the are used to generate this website. Things like the [Fritzing](http://fritzing.org/home/) Schemas etc.
 ### firmware_binary
 A compiled version of the Spark Code code from the spark-code folder. This includes the external libraries.
+
+You can either download this from the Spark.io Workbench in the web or compile it with the Spark.io Command Line tools.
 ### spark-core
-The source code of Spark Core file. This references some external libraries which are available via the Spark Cloud workbench.
+The source code of Spark Core file. This contains some external libraries for the two sensors. They are from Adafruits Github account:
+
+ * [MPL115A2 Driver](https://github.com/adafruit/Adafruit_MPL115A2)
+ * [DHT22 Driver](https://github.com/adafruit/DHT-sensor-library)
+
+
+
 ### misc
 Some miscellaneous files like shell scripts to generate graphs.
 ### web
