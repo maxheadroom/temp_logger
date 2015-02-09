@@ -52,7 +52,37 @@ def generate_temperature(rrdfile):
 		"GPRINT:tmin:MIN:Min\:%5.1lf C",
 		"GPRINT:tmax:MAX:Max\:%5.1lf C\n")
 
+def generate_pressure(rrdfile):
+	for sched in ['hourly', 'daily' , 'weekly', 'monthly']:
+		if sched == 'weekly':
+			period = 'w'
+		elif sched == 'hourly':
+			period = 'h'
+		elif sched == 'daily':
+			period = 'd'
+		elif sched == 'monthly':
+			period = 'm'
+
+		rrdtool.graph(WEB_HOME+"/pressure_%s.png" %(sched),
+		"-w" , "800",
+		"--imgformat", "PNG",
+		"--slope-mode",
+		"--start" , "-1%s" %(period),
+		"--end", "now",
+		"--font", "DEFAULT:7:",
+		"--vertical-label", "pressure ( hPa)",
+		"DEF:pressure=" + rrdfile +":pressure:AVERAGE",
+		"DEF:pmin=" + rrdfile +":pressure:MIN",
+		"DEF:pmax=" + rrdfile +":pressure:MAX", 
+		"LINE1:pressure" + COLOUR5 + ":Pressure \l",
+		"GPRINT:pressure:LAST:                 Cur\:%5.1lf hPa",
+		"GPRINT:pressure:AVERAGE:Avg\:%5.1lf hPa",
+		"GPRINT:pmin:MIN:Min\:%5.1lf hPa",
+		"GPRINT:pmax:MAX:Max\:%5.1lf hPa\n")
+
+
 
 # main class if this file is used directly
 if __name__ == '__main__':
 	generate_temperature(RRDFILE)
+	generate_pressure(RRDFILE)
