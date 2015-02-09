@@ -13,6 +13,7 @@ double humidity = 0;
 double dht22temp = 0;
 double dewpoint = 0;
 
+
 // 
 #define DHTPIN D4
 #define DHTTYPE DHT22
@@ -24,8 +25,20 @@ Adafruit_MPL115A2 sensor1;
 DHT dht(DHTPIN, DHTTYPE);
 
 
+// Blink LED and wait for some time
+void BlinkLED(){
+    digitalWrite(D7, HIGH);   
+    delay(500);
+    digitalWrite(D7, LOW);   
+    delay(500);
+    
+}
+
+
 void setup() {
     
+    Serial.begin(9600);
+    Serial.println("Initializing sensors...");
     // initiate the I2C bus
     Wire.begin();
     // initialize DHT22
@@ -38,6 +51,8 @@ void setup() {
     Spark.variable("dewpoint", &dewpoint, DOUBLE);
 	// initialze the sensor
     sensor1.begin();
+    // enable Serial output
+    
 
 }
 
@@ -50,5 +65,6 @@ void loop() {
 	humidity = dht.readHumidity();
     dht22temp = dht.readTemperature();
     dewpoint = dht.dewPoint(dht22temp, humidity);
+    BlinkLED(); 
 
 }
