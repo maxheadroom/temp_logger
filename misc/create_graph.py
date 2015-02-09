@@ -18,26 +18,28 @@ RRDFILE=TOOL_HOME + "/climate.rrd"
 
 def generate_temperature(rrdfile):
 
-	for sched in ['hourly', 'daily' , 'weekly', 'monthly']:
+	for sched in ['hourly','halfday' , 'daily' , 'weekly', 'monthly']:
 
 		if sched == 'weekly':
-			period = 'w'
+			period = '-1week'
 		elif sched == 'hourly':
-			period = 'h'
+			period = '-1hours'
 		elif sched == 'daily':
-			period = 'd'
+			period = '-1dayd'
+		elif sched == 'halfday':
+			period = '-6hours'
 		elif sched == 'monthly':
-			period = 'm'
+			period = '-1month'
 
 		rrdtool.graph(WEB_HOME+"/temperature_%s.png" %(sched),
 		"-w" , "800",
 		"-h", "400",
 		"--imgformat", "PNG",
 		"--slope-mode",
-		"--start" , "-1%s" %(period),
+		"--start" , period,
 		"--end", "now",
 		"--font", "DEFAULT:7:",
-		"--right-axis", "0:0",
+		"--right-axis", "1:0",
 		"--right-axis-label", "rel. Humidity in %",
 		"--vertical-label", "temperature ( C)",
 		"DEF:temp=" + rrdfile +":temperature:AVERAGE",
@@ -56,22 +58,25 @@ def generate_temperature(rrdfile):
 		"GPRINT:tmax:MAX:Max\:%5.1lf C\n")
 
 def generate_pressure(rrdfile):
-	for sched in ['hourly', 'daily' , 'weekly', 'monthly']:
+	for sched in ['hourly','halfday' , 'daily' , 'weekly', 'monthly']:
+
 		if sched == 'weekly':
-			period = 'w'
+			period = '-1week'
 		elif sched == 'hourly':
-			period = 'h'
+			period = '-1hours'
 		elif sched == 'daily':
-			period = 'd'
+			period = '-1dayd'
+		elif sched == 'halfday':
+			period = '-6hours'
 		elif sched == 'monthly':
-			period = 'm'
+			period = '-1month'
 
 		rrdtool.graph(WEB_HOME+"/pressure_%s.png" %(sched),
 		"-w" , "800",
 		"-h" , "400",
 		"--imgformat", "PNG",
 		"--slope-mode",
-		"--start" , "-1%s" %(period),
+		"--start" , period,
 		"--end", "now",
 		"--font", "DEFAULT:7:",
 		"--vertical-label", "pressure ( hPa)",
