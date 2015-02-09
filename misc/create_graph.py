@@ -23,9 +23,9 @@ def generate_temperature(rrdfile):
 		if sched == 'weekly':
 			period = '-1week'
 		elif sched == 'hourly':
-			period = '-1hours'
+			period = '-1hour'
 		elif sched == 'daily':
-			period = '-1dayd'
+			period = '-1day'
 		elif sched == 'halfday':
 			period = '-6hours'
 		elif sched == 'monthly':
@@ -65,7 +65,7 @@ def generate_pressure(rrdfile):
 		elif sched == 'hourly':
 			period = '-1hours'
 		elif sched == 'daily':
-			period = '-1dayd'
+			period = '-1day'
 		elif sched == 'halfday':
 			period = '-6hours'
 		elif sched == 'monthly':
