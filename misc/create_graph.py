@@ -15,7 +15,8 @@ TRENDCOLOUR="#FFFF00"
 LAT=52.5243700
 LON=13.4105300
 
-TOOL_HOME="/home/fzurell/temp_logger"
+#TOOL_HOME="/home/fzurell/temp_logger"
+TOOL_HOME="/Volumes/Repositories/temp_logger"
 WEB_HOME=TOOL_HOME + "/web"
 RRDFILE=TOOL_HOME + "/climate.rrd"
 
@@ -118,10 +119,10 @@ def generate_temperature(rrdfile, observer):
 		"LINE1:dht" + COLOUR2 +":temp dht22\l",
 		"LINE1:dewpoint" + COLOUR3 +":Dew Point\l",
 		"LINE1:humidity"+ COLOUR4 + ":Humidity in %\l",
-		"GPRINT:temp:LAST:                 Cur\:%5.1lf C",
+		"GPRINT:temp:LAST:Cur\:%5.1lf C",
 		"GPRINT:temp:AVERAGE:Avg\:%5.1lf C",
 		"GPRINT:tmin:MIN:Min\:%5.1lf C",
-		"GPRINT:tmax:MAX:Max\:%5.1lf C\n")
+		"GPRINT:tmax:MAX:Max\:%5.1lf C")
 
 def generate_pressure(rrdfile, observer):
 	
@@ -166,10 +167,10 @@ def generate_pressure(rrdfile, observer):
 		"AREA:dusktilldawn#CCCCCC",
 		"AREA:dawntilldusk#CCCCCC",
 		"LINE1:pressure" + COLOUR5 + ":Pressure \l",
-		"GPRINT:pressure:LAST:                 Cur\:%5.1lf hPa",
+		"GPRINT:pressure:LAST:Cur\:%5.1lf hPa",
 		"GPRINT:pressure:AVERAGE:Avg\:%5.1lf hPa",
 		"GPRINT:pmin:MIN:Min\:%5.1lf hPa",
-		"GPRINT:pmax:MAX:Max\:%5.1lf hPa\n")
+		"GPRINT:pmax:MAX:Max\:%5.1lf hPa")
 
 
 
