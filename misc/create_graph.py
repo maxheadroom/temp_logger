@@ -15,8 +15,8 @@ TRENDCOLOUR="#FFFF00"
 LAT=52.5243700
 LON=13.4105300
 
-#TOOL_HOME="/home/fzurell/temp_logger"
-TOOL_HOME="/Volumes/Repositories/temp_logger"
+TOOL_HOME="/home/fzurell/temp_logger"
+#TOOL_HOME="/Volumes/Repositories/temp_logger"
 WEB_HOME=TOOL_HOME + "/web"
 RRDFILE=TOOL_HOME + "/climate.rrd"
 
