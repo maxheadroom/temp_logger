@@ -39,3 +39,33 @@ The source code of Spark Core file. This contains some external libraries for th
 Some miscellaneous files like shell scripts to generate graphs.
 ### web
 contains the web files for the RRD graphs of the temperature readings
+
+## Compiling Firmware
+The easiest way to get the code to your core is to use the [command line interface](http://docs.spark.io/cli/) from Spark.io.
+Once you've installed that and logged in to the Spark Cloud you can compile the code in the cloud:
+
+```shell
+cd temp_logger
+temp_logger fzurell$ spark compile spark-code
+Including:
+    /Volumes/Repositories/temp_logger/spark-code/Adafruit_MPL115A2.h
+    /Volumes/Repositories/temp_logger/spark-code/dht.h
+    /Volumes/Repositories/temp_logger/spark-code/weather.ino
+    /Volumes/Repositories/temp_logger/spark-code/Adafruit_MPL115A2.cpp
+    /Volumes/Repositories/temp_logger/spark-code/dht.cpp
+attempting to compile firmware
+pushing file: /Volumes/Repositories/temp_logger/spark-code/Adafruit_MPL115A2.h
+pushing file: /Volumes/Repositories/temp_logger/spark-code/dht.h
+pushing file: /Volumes/Repositories/temp_logger/spark-code/weather.ino
+pushing file: /Volumes/Repositories/temp_logger/spark-code/Adafruit_MPL115A2.cpp
+pushing file: /Volumes/Repositories/temp_logger/spark-code/dht.cpp
+Memory use:
+   text	   data	    bss	    dec	    hex	filename
+  87640	   1280	  11960	 100880	  18a10	/spark/compile_server/shared/workspace/3_compile-server2/core-firmware/build/40806d0d186250dc010a43805ccb759d08183f5b9600fef1ade78cc63d88.elf
+
+grabbing binary from: https://api.spark.io/v1/binaries/54dc665fe581a5a66a144ebc
+saved firmware to /Volumes/Repositories/temp_logger/firmware_1423730270705.bin
+Compiled firmware downloaded.
+temp_logger fzurell$ spark flash <your_corename> firmware_1423730270705.bin
+ 
+```
