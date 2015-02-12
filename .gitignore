@@ -3,3 +3,4 @@ update_rrd.pyc
 climate.rrd
 ./*.png
 web/*.png
+firmware_*.bin
