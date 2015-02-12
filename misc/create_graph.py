@@ -115,14 +115,15 @@ def generate_temperature(rrdfile, observer):
 		"CDEF:dawntilldusk=LTIME,86400,%," + dawn +",LT,NEGINF,LTIME,86400,%," + dusk + ",GT,NEGINF,UNKN,temp,*,IF,IF",
 		"AREA:dusktilldawn#CCCCCC",
 		"AREA:dawntilldusk#CCCCCC",
-		"LINE1:temp" + COLOUR1 + ":temp \l",
-		"LINE1:dht" + COLOUR2 +":temp dht22\l",
-		"LINE1:dewpoint" + COLOUR3 +":Dew Point\l",
-		"LINE1:humidity"+ COLOUR4 + ":Humidity in %\l",
 		"GPRINT:temp:LAST:Cur\:%5.1lf C",
 		"GPRINT:temp:AVERAGE:Avg\:%5.1lf C",
 		"GPRINT:tmin:MIN:Min\:%5.1lf C",
-		"GPRINT:tmax:MAX:Max\:%5.1lf C")
+		"GPRINT:tmax:MAX:Max\:%5.1lf C",
+		"COMMENT:\t\t\t\t\t\t",
+		"LINE1:humidity"+ COLOUR4 + ":Humidity in %\j",
+		"LINE1:temp" + COLOUR1 + ":temp\j",
+		"LINE1:dht" + COLOUR2 +":temp dht22\j",
+		"LINE1:dewpoint" + COLOUR3 +":Dew Point\j")
 
 def generate_pressure(rrdfile, observer):
 	
@@ -166,11 +167,11 @@ def generate_pressure(rrdfile, observer):
 		"CDEF:dawntilldusk=LTIME,86400,%," + dawn +",LT,NEGINF,LTIME,86400,%," + dusk + ",GT,NEGINF,UNKN,pressure,*,IF,IF",
 		"AREA:dusktilldawn#CCCCCC",
 		"AREA:dawntilldusk#CCCCCC",
-		"LINE1:pressure" + COLOUR5 + ":Pressure \l",
 		"GPRINT:pressure:LAST:Cur\:%5.1lf hPa",
 		"GPRINT:pressure:AVERAGE:Avg\:%5.1lf hPa",
 		"GPRINT:pmin:MIN:Min\:%5.1lf hPa",
-		"GPRINT:pmax:MAX:Max\:%5.1lf hPa")
+		"GPRINT:pmax:MAX:Max\:%5.1lf hPa",
+		"LINE1:pressure" + COLOUR5 + ":Pressure \j")
 
 
 
