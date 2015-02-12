@@ -13,7 +13,17 @@ double humidity = 0;
 double dht22temp = 0;
 double dewpoint = 0;
 
+// define some limits for the readings
+// outside of those limits we assume a sensor problem
+int temp_low_limit = -30;
+int temp_high_limit = 100;
+int pressure_low_limit = 50;
+int pressure_high_limit = 170;
+int humidity_low_limit = 0;
+int humidity_high_limit = 105;
 
+// last reset as epoch
+int last_reset = 0;
 // 
 #define DHTPIN D4
 #define DHTTYPE DHT22
@@ -24,15 +34,6 @@ Adafruit_MPL115A2 sensor1;
 // initialize DHT22
 DHT dht(DHTPIN, DHTTYPE);
 
-
-// Blink LED and wait for some time
-void BlinkLED(){
-    digitalWrite(D7, HIGH);   
-    delay(500);
-    digitalWrite(D7, LOW);   
-    delay(500);
-    
-}
 
 
 void setup() {
@@ -49,6 +50,7 @@ void setup() {
     Spark.variable("humidity", &humidity, DOUBLE);
     Spark.variable("dht22temp", &dht22temp, DOUBLE);
     Spark.variable("dewpoint", &dewpoint, DOUBLE);
+	Spark.variable("lastreset", &last_reset, INT);
 	// initialze the sensor
     sensor1.begin();
     // enable Serial output
@@ -65,6 +67,10 @@ void loop() {
 	humidity = dht.readHumidity();
     dht22temp = dht.readTemperature();
     dewpoint = dht.dewPoint(dht22temp, humidity);
-    BlinkLED(); 
+
+	if ( temperature < temp_low_limit ) {
+		last_reset = Time.now();
+	    System.reset();
+	  }
 
 }
