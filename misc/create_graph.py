@@ -172,7 +172,53 @@ def generate_pressure(rrdfile, observer):
 		"GPRINT:pmax:MAX:Max\:%5.1lf hPa\j",
 		"LINE1:pressure" + COLOUR5 + ":Pressure \j")
 
+def generate_light(rrdfile, observer):
 
+	sunrise = observer[0]
+	sunset = observer[1]
+	dusk = observer[2]
+	dawn = observer[3]
+
+
+	for sched in ['hourly','halfday' , 'daily' , 'weekly', 'monthly']:
+
+		if sched == 'weekly':
+			period = '-1week'
+		elif sched == 'hourly':
+			period = '-1hours'
+		elif sched == 'daily':
+			period = '-1day'
+		elif sched == 'halfday':
+			period = '-6hours'
+		elif sched == 'monthly':
+			period = '-1month'
+
+		rrdtool.graph(WEB_HOME+"/light_%s.png" %(sched),
+		"-w" , "800",
+		"-h" , "400",
+		"--title", "Last %s" %(sched),
+		"--imgformat", "PNG",
+		"--slope-mode",
+		"--start" , period,
+		"--end", "now",
+		"--font", "DEFAULT:7:",
+		"--vertical-label", "light intensity",
+		"DEF:light=" + rrdfile +":light:AVERAGE",
+		"DEF:lmin=" + rrdfile +":light:MIN",
+		"DEF:lmax=" + rrdfile +":light:MAX", 
+		"CDEF:nightplus=LTIME,86400,%,"+ sunrise + ",LT,INF,LTIME,86400,%," + sunset + ",GT,INF,UNKN,light,*,IF,IF",
+		"CDEF:nightminus=LTIME,86400,%," + sunrise + ",LT,NEGINF,LTIME,86400,%," + sunset +",GT,NEGINF,UNKN,light,*,IF,IF",
+		"AREA:nightplus#E0E0E0", 
+		"AREA:nightminus#E0E0E0",
+		"CDEF:dusktilldawn=LTIME,86400,%," + dawn + ",LT,INF,LTIME,86400,%," + dusk + ",GT,INF,UNKN,light,*,IF,IF",
+		"CDEF:dawntilldusk=LTIME,86400,%," + dawn +",LT,NEGINF,LTIME,86400,%," + dusk + ",GT,NEGINF,UNKN,light,*,IF,IF",
+		"AREA:dusktilldawn#CCCCCC",
+		"AREA:dawntilldusk#CCCCCC",
+		"GPRINT:light:LAST:Cur\:%5.1lf \j",
+		"GPRINT:light:AVERAGE:Avg\:%5.1lf \j",
+		"GPRINT:lmin:MIN:Min\:%5.1lf \j",
+		"GPRINT:lmax:MAX:Max\:%5.1lf \j",
+		"LINE1:light" + COLOUR5 + ":Light intensity \j")
 
 # main class if this file is used directly
 if __name__ == '__main__':
@@ -181,3 +227,4 @@ if __name__ == '__main__':
 	observer = compute_observer(LAT,LON)
 	generate_temperature(RRDFILE, observer)
 	generate_pressure(RRDFILE, observer)
+	generate_light(RRDFILE, observer)

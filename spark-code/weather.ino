@@ -12,6 +12,7 @@ double pressure = 0;
 double humidity = 0;
 double dht22temp = 0;
 double dewpoint = 0;
+int light = 0; 
 
 // define some limits for the readings
 // outside of those limits we assume a sensor problem
@@ -33,6 +34,7 @@ int tinkerAnalogWrite(String command);
 // 
 #define DHTPIN D4
 #define DHTTYPE DHT22
+#define LIGHTPIN A0
 
 //  instantiate the MPL115A2 Sensor
 Adafruit_MPL115A2 sensor1;
@@ -49,7 +51,8 @@ void setup() {
     Spark.function("digitalwrite", tinkerDigitalWrite);
     Spark.function("analogread", tinkerAnalogRead);
     Spark.function("analogwrite", tinkerAnalogWrite);
-    
+
+    // enable Serial output
     Serial.begin(9600);
     Serial.println("Initializing sensors...");
     // initiate the I2C bus
@@ -63,23 +66,31 @@ void setup() {
     Spark.variable("dht22temp", &dht22temp, DOUBLE);
     Spark.variable("dewpoint", &dewpoint, DOUBLE);
 	Spark.variable("lastreset", &last_reset, INT);
+	Spark.variable("light", &light, INT);
 	// initialze the sensor
     sensor1.begin();
-    // enable Serial output
     
-
+    
+	// Set analog Read Pin 
+	pinMode(LIGHTPIN, INPUT);
 }
 
 void loop() {
     
-    // read temperature from the sensors
+    // read temperature & pressure from MPL115A2
 	temperature = sensor1.getTemperature();
 	pressure = sensor1.getPressure();
-	
+	// read DHT22 sensor
 	humidity = dht.readHumidity();
     dht22temp = dht.readTemperature();
     dewpoint = dht.dewPoint(dht22temp, humidity);
 
+	// read photoresistor
+	light = analogRead(LIGHTPIN);
+	
+	// reset the Spark Core if temperature from MPL115A2
+	// is below reasonable levels
+	
 	if ( temperature < temp_low_limit ) {
 		last_reset = Time.now();
 	    System.reset();

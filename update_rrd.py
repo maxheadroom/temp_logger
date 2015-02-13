@@ -40,8 +40,8 @@ def update_rrd_dht22(dht22temp, humidity, dewpoint):
 		    print rrdtool.error()
 
 
-def update_rrd_all(temperature, pressure, dht22temp, humidity, dewpoint):
-		 ret = rrdtool.update('climate.rrd','--template','temperature:pressure:dht22temperature:humidity:dewpoint', 'N:' + str(temperature) + ':' + str(pressure) + ':' + str(dht22temp) + ':' + str(humidity) + ':' + str(dewpoint));
+def update_rrd_all(temperature, pressure, dht22temp, humidity, dewpoint, light):
+		 ret = rrdtool.update('climate.rrd','--template','temperature:pressure:dht22temperature:humidity:dewpoint:light', 'N:' + str(temperature) + ':' + str(pressure) + ':' + str(dht22temp) + ':' + str(humidity) + ':' + str(dewpoint) + ":" + str(light));
 		 if ret:
 				print rrdtool.error()
 
@@ -62,9 +62,11 @@ if __name__ == '__main__':
 	dht22temp = read_metric("dht22temp")
 	humidity = read_metric("humidity")
 	dewpoint = read_metric("dewpoint")
+	light = read_metric("light")
 	print "Temperature: " + str(round(temperature,2)) + " C"
 	print "Temperature DHT22: " + str(round(dht22temp,2)) + " C"
 	print "Pressure: " + str(round(pressure,2)) + " hPa"
 	print "Humidity: " + str(round(humidity,2)) + " %"
 	print "Dew point: " + str(round(dewpoint,2)) + " C"
-	update_rrd_all(temperature, pressure, dht22temp, humidity, dewpoint)
+	print "Light: " + str(light)
+	update_rrd_all(temperature, pressure, dht22temp, humidity, dewpoint, light)
